@@ -23,6 +23,7 @@ import (
 const (
 	SSLModeManual string = "manual"
 	SSLModeAuto   string = "auto"
+	SSLModeOff string = "off"
 )
 
 func getConfig(ctx *cli.Context) *acmeproxy.Config {
@@ -133,6 +134,8 @@ func newHttpServer(ctx *cli.Context) *http.Server {
 	}
 
 	switch ctx.GlobalString("ssl") {
+	case SSLModeOff:
+		log.Info("Setting up server (HTTP)")
 	case SSLModeManual:
 		log.Info("Setting up server using SSL (manual)")
 		tlsConfig := &tls.Config{
