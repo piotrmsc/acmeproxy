@@ -1,34 +1,38 @@
 # Environment variables to be used with this provider
-#environment:
+environment:
 # - "TRANSIP_ACCOUNT_NAME=mdbraber"
 # - "TRANSIP_PRIVATE_KEY_PATH=/etc/acmeproxy/transip.key"
 # - "TRANSIP_POLLING_INTERVAL=30"
 # - "TRANSIP_PROPAGATION_TIMEOUT=600"
+  - "GCE_PROJECT=sap-se-cx-kyma-goat"
+# - GCE_SERVICE_ACCOUNT:
+  - "GCE_SERVICE_ACCOUNT_FILE=/Users/i303773/Documents/development/golang/src/github.com/piotrmsc/acmeproxy/etc/acmeproxy/sap-se-cx-kyma-goat-9ea6c7adb862.json"
 
 # General settings
-interface: "acmeproxy.example.com"
+#interface: "acmeproxy.example.com"
+interface: "acmeproxy.kyma-goat.ga"
 port: 9096
-#provider: "transip"
+provider: "gcloud"
 #htpasswd-file: "/etc/acmeproxy/htpasswd"
-accesslog-file: "/var/log/acmeproxy.log"
+accesslog-file: "/Users/i303773/Documents/development/golang/src/github.com/piotrmsc/acmeproxy/etc/acmeproxy/log/acmeproxy.log"
 log-level: debug
 log-timestamp: true
 log-forcecolors: true
 log-forceformatting: true
 allowed-ips:
- - "127.0.0.1"
- - "172.16.0.0/16"
+  - "127.0.0.1"
+  - "172.16.0.0/16"
 allowed-domains:
- - "example.com"
+  - "tsml.kyma-goat.ga"
 
 # Settings for the acmeproxy SSL certificate (used with this interface)
 ssl: auto
 #ssl.manual.cert-file: "/etc/lego/certificates/acmeproxy.example.com.crt"
 #ssl.manual.key-file: "/etc/lego/certificates/acmeproxy.example.com.key"
-ssl.auto.ca: "https://acme-v02.api.letsencrypt.org/directory"
-#ssl.auto.ca: "https://acme-staging-v02.api.letsencrypt.org/directory"
+#ssl.auto.ca: "https://acme-v02.api.letsencrypt.org/directory"
+ssl.auto.ca: "https://acme-staging-v02.api.letsencrypt.org/directory"
 ssl.auto.agreed: true
-ssl.auto.email: "johndoe@example.com"
+ssl.auto.email: "tomasz.smelcerz@sap.com"
 ssl.auto.key-type: "rsa2048"
-ssl.auto.path: "/etc/acmeproxy/certmagic"
-#ssl.auto.provider: "transip"
+ssl.auto.path: "/Users/i303773/Documents/development/golang/src/github.com/piotrmsc/acmeproxy/etc/acmeproxy/certmagic"
+#ssl.auto.provider: "gcloud"
