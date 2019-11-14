@@ -13,13 +13,12 @@ VERSION := $(if $(TAG_NAME),$(TAG_NAME),$(SHA))
 default: clean checks test build
 
 clean:
-	dh_clean
-	rm -rf dist/ builds/ cover.out
+	rm -rf ./dist/ ./builds/ ./dep cover.out
 
 build: clean
 	@echo Version: $(VERSION)
-	go build -v -ldflags '-X "main.version=${VERSION}"' -o ${BIN_OUTPUT} ${MAIN_DIRECTORY}
-
+#	go build -v -ldflags '-X "main.version=${VERSION}"' -o ${BIN_OUTPUT} ${MAIN_DIRECTORY}
+	go build -v -o ${BIN_OUTPUT} ${MAIN_DIRECTORY}
 dependencies:
 	dep ensure -v
 

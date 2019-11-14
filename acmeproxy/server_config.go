@@ -3,7 +3,7 @@ package acmeproxy
 import (
 	"net/http"
 
-	"github.com/go-acme/lego/challenge"
+	"github.com/go-acme/lego/v3/challenge"
 )
 
 type Config struct {
