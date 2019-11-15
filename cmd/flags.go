@@ -65,7 +65,7 @@ func CreateFlags(defaultPath string) []cli.Flag {
 		}),
 		altsrc.NewStringFlag(cli.StringFlag{
 			Name:  "ssl",
-			Usage: "Provide a HTTPS connection when listening to interface:port (supported: auto or manual)",
+			Usage: "Provide a HTTPS connection when listening to interface:port (supported: auto ,manual or off)",
 		}),
 		altsrc.NewStringFlag(cli.StringFlag{
 			Name:  "ssl.manual.cert-file",

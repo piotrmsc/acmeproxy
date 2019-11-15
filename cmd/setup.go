@@ -10,19 +10,20 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-acme/lego/v3/certcrypto"
+	xlog "github.com/go-acme/lego/v3/log"
+	"github.com/go-acme/lego/v3/providers/dns"
 	"github.com/mdbraber/acmeproxy/acmeproxy"
 	aplog "github.com/mdbraber/acmeproxy/log"
 	"github.com/mholt/certmagic"
 	log "github.com/sirupsen/logrus"
-	"github.com/go-acme/lego/v3/certcrypto"
-	xlog "github.com/go-acme/lego/v3/log"
-	"github.com/go-acme/lego/v3/providers/dns"
 	"gopkg.in/urfave/cli.v1"
 )
 
 const (
 	SSLModeManual string = "manual"
 	SSLModeAuto   string = "auto"
+	SSLModeOff string = "off"
 )
 
 func getConfig(ctx *cli.Context) *acmeproxy.Config {
@@ -133,6 +134,8 @@ func newHttpServer(ctx *cli.Context) *http.Server {
 	}
 
 	switch ctx.GlobalString("ssl") {
+	case SSLModeOff:
+		log.Info("Setting up server (HTTP)")
 	case SSLModeManual:
 		log.Info("Setting up server using SSL (manual)")
 		tlsConfig := &tls.Config{
@@ -176,12 +179,12 @@ func newHttpServer(ctx *cli.Context) *http.Server {
 		})
 
 		magic := certmagic.New(cache, certmagic.Config{
-			CA: ctx.GlobalString("ssl.auto.ca"),
-			Email: getEmail(ctx),
-			Agreed: ctx.GlobalBool("ssl.auto.agreed"),
-			KeyType: getKeyType(ctx),
-			DNSProvider: cmProvider,
-			DisableHTTPChallenge: true,
+			CA:                      ctx.GlobalString("ssl.auto.ca"),
+			Email:                   getEmail(ctx),
+			Agreed:                  ctx.GlobalBool("ssl.auto.agreed"),
+			KeyType:                 getKeyType(ctx),
+			DNSProvider:             cmProvider,
+			DisableHTTPChallenge:    true,
 			DisableTLSALPNChallenge: true,
 		})
 

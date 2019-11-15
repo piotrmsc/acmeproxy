@@ -40,10 +40,13 @@ func (f *TextFormatter) Format(entry *log.Entry) ([]byte, error) {
 	}
 
 	re = regexp.MustCompile(`\[((?:[a-z0-9\*](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9])\]`)
-	domainMatch := re.FindAllStringSubmatch(entry.Message, -1)
-	if len(domainMatch) > 0 && !strings.Contains(entry.Data["prefix"].(string), domainMatch[0][1]) {
-		entry.Data["prefix"] = entry.Data["prefix"].(string) + ": " + domainMatch[0][1]
-	}
+	/*
+		domainMatch := re.FindAllStringSubmatch(entry.Message, -1)
+
+			if len(domainMatch) > 0 && !strings.Contains(entry.Data["prefix"].(string), domainMatch[0][1]) {
+				entry.Data["prefix"] = entry.Data["prefix"].(string) + ": " + domainMatch[0][1]
+			}
+	*/
 	entry.Message = re.ReplaceAllString(entry.Message, "")
 
 	// Change [string:string] message to fields, e.g. [FileStorage:/etc/acmeproxy/certmagic]
