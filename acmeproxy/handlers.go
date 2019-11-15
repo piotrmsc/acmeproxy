@@ -262,7 +262,23 @@ func ActionHandler(action string, config *Config) http.Handler {
 				"mode":     mode,
 			}).Debug("Provider supports requested mode")
 			provider := config.Provider
-			err = provider.Present(incoming.Domain, incoming.Token, incoming.KeyAuth)
+
+			if action == ActionPresent {
+				err = provider.Present(incoming.Domain, incoming.Token, incoming.KeyAuth)
+			} else if action == ActionCleanup {
+				err = provider.CleanUp(incoming.Domain, incoming.Token, incoming.KeyAuth)
+			} else {
+				alog.WithFields(log.Fields{
+					"provider": config.ProviderName,
+					"fqdn":     incoming.FQDN,
+					"value":    incoming.Value,
+					"mode":     mode,
+					"error":    err.Error(),
+				}).Error("Wrong action specified")
+				http.Error(w, "Wrong action specified", http.StatusInternalServerError)
+				return
+			}
+
 			if err != nil {
 				alog.WithFields(log.Fields{
 					"provider": config.ProviderName,
